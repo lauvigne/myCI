@@ -3,11 +3,9 @@ FROM jenkins:1.596
 USER root
 
 RUN apt-get update -qq && apt-get install -yqq \
-	bzip2
-	 
+    bzip2
 
-# TMP to debug mysql connection
-RUN apt-get install -y mysql-server
+
 
 # Install java
 #
@@ -31,15 +29,15 @@ COPY custom.groovy /usr/share/jenkins/ref/init.groovy.d/custom.groovy
 
 ## Maven
 COPY hudson.tasks.Maven.xml /usr/share/jenkins/ref/hudson.tasks.Maven.xml
-COPY settings.xml 			/usr/share/jenkins/ref/.m2/settings.xml
+COPY settings.xml           /usr/share/jenkins/ref/.m2/settings.xml
 
 ## Sonar 
 COPY hudson.plugins.sonar.SonarPublisher.xml          /usr/share/jenkins/ref/hudson.plugins.sonar.SonarPublisher.xml
 COPY hudson.plugins.sonar.SonarRunnerInstallation.xml /usr/share/jenkins/ref/hudson.plugins.sonar.SonarRunnerInstallation.xml
 
 ##TMP Add a test job
-COPY fluent-http.config.xml       			 /usr/share/jenkins/ref/jobs/fluent-http/config.xml
-COPY fluent-http_sonarQube.config.xml 		 /usr/share/jenkins/ref/jobs/fluent-http_sonarQube/config.xml
+COPY fluent-http.config.xml                   /usr/share/jenkins/ref/jobs/fluent-http/config.xml
+COPY fluent-http_sonarQube.config.xml         /usr/share/jenkins/ref/jobs/fluent-http_sonarQube/config.xml
 
 RUN chown -R jenkins /usr/share/jenkins/ref
 
@@ -48,8 +46,3 @@ USER jenkins
 ## install additional plugins (git, sonar, ...)
 COPY plugins.txt /plugins.txt
 RUN /usr/local/bin/plugins.sh /plugins.txt
-
-
-
-
-
